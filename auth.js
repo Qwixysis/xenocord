@@ -1,18 +1,26 @@
-import { initializeApp } from "firebase/app";
-import { getAuth } from "firebase/auth";
-import { getFirestore } from "firebase/firestore";
+import { auth } from "./firebase.js";
+import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from "firebase/auth";
 
-const firebaseConfig = {
-  apiKey: "AIzaSyDqHq3k1EkL5KxxpBkFEm9OxgCtixshJY",
-  authDomain: "xenogram-4a1c0.firebaseapp.com",
-  projectId: "xenogram-4a1c0",
-  storageBucket: "xenogram-4a1c0.appspot.com",
-  messagingSenderId: "219275152669",
-  appId: "1:219275152669:web:ee7d63910d3a8e4ff065f4",
-  measurementId: "G-2BZ2X9HSF9"
+// Регистрация
+window.register = function() {
+  const email = document.getElementById("regEmail").value;
+  const pass = document.getElementById("regPass").value;
+  createUserWithEmailAndPassword(auth, email, pass)
+    .then(() => {
+      console.log("Регистрация успешна");
+      window.location.href = "./main.html"; // редирект
+    })
+    .catch(err => alert(err.message));
 };
 
-const app = initializeApp(firebaseConfig);
-
-export const auth = getAuth(app);
-export const db = getFirestore(app);
+// Логин
+window.login = function() {
+  const email = document.getElementById("logEmail").value;
+  const pass = document.getElementById("logPass").value;
+  signInWithEmailAndPassword(auth, email, pass)
+    .then(() => {
+      console.log("Логин успешен");
+      window.location.href = "./main.html"; // редирект
+    })
+    .catch(err => alert(err.message));
+};
